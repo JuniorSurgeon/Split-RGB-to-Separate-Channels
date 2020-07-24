@@ -1,0 +1,46 @@
+# By Nicholas Nilsson, 2020
+# nilssonn@byu.edu
+
+import glob
+import os
+
+from PIL import Image
+
+# change path to wherever pictures are stored
+# this is really ugly and has to be hard-coded for the picture directory
+path = r"D:\Downloads\test\\"
+dirs = os.listdir(path)
+os.mkdir(r"D:\Downloads\test\Split Channel Images\\")
+save_path = r"D:\Downloads\test\Split Channel Images\\"
+
+
+def split_channels():
+    for item in dirs:
+        if os.path.isfile(path + item):
+            RGB = Image.open(path + item)
+            image_path = RGB.filename.rstrip(".png")
+            
+            # adjust for specific directory
+            image_name = image_path.strip(r"D:\Downloads\test\\")
+
+            # adjust for specific directory
+            folder_path = save_path + image_path.strip(r"D:\Downloads\test\\")
+
+            # make a new folder for each rgb image set
+            os.mkdir(folder_path)
+
+            # split the image into RGB channels
+            rgb = Image.Image.split(RGB)
+
+            # saves red channel with "r" at end of filename
+            rgb[0].save(save_path + image_name + "\\" + image_name + "r" + ".png", "PNG")
+
+            # saves blue channel
+            rgb[1].save(save_path + image_name + "\\" + image_name + "g" + ".png", "PNG")
+
+            # saves green channel
+            rgb[2].save(save_path + image_name + "\\" + image_name + "b" + ".png", "PNG")
+
+
+split_channels()
+
